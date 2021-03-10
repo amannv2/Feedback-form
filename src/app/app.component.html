@@ -1,33 +1,76 @@
-<button mat-raised-button color="primary" (click)="this.showFeedback = true">
+<!-- <button
+  mat-raised-button
+  color="primary"
+  (click)="this.showFeedback = true"
+  class="feedback"
+>
   Feedback
-</button>
-<br />
+</button> -->
+
 <mat-card class="feedback-card" *ngIf="this.showFeedback">
-  <button mat-icon-button close="close" (click)="this.showFeedback = false">
+  <button mat-icon-button (click)="this.showFeedback = false" class="close">
     <mat-icon style="color: darkgrey">close</mat-icon>
   </button>
 
   <h2>Please give your feedback</h2>
-  Rate our feature:
-  <mat-slider
-    color="primary"
-    thumbLabel
-    tickInterval="1"
-    min="0"
-    max="5"
-    [(ngModel)]="rating"
-  ></mat-slider>
-  <br />
+  <h3>Rate our feature</h3>
+  <div class="rate-div">
+    <button mat-icon-button matTooltip="Very dissatisfied">
+      <mat-icon
+        (click)="setRating(1)"
+        [ngClass]="this.rating == 1 ? 'active-rate' : 'inactive-rate'"
+        >sentiment_very_dissatisfied</mat-icon
+      >
+    </button>
+    <button mat-icon-button matTooltip="Dissatisfied">
+      <mat-icon
+        (click)="setRating(2)"
+        [ngClass]="this.rating == 2 ? 'active-rate' : 'inactive-rate'"
+        >sentiment_dissatisfied</mat-icon
+      >
+    </button>
+    <button mat-icon-button matTooltip="Neutral">
+      <mat-icon
+        class="rate"
+        (click)="setRating(3)"
+        [ngClass]="this.rating == 3 ? 'active-rate' : 'inactive-rate'"
+        >sentiment_neutral</mat-icon
+      >
+    </button>
+    <button mat-icon-button matTooltip="Satisfied">
+      <mat-icon
+        (click)="setRating(4)"
+        [ngClass]="this.rating == 4 ? 'active-rate' : 'inactive-rate'"
+        >sentiment_satisfied</mat-icon
+      >
+    </button>
+    <button mat-icon-button matTooltip="Very satisfied">
+      <mat-icon
+        (click)="setRating(5)"
+        [ngClass]="this.rating == 5 ? 'active-rate' : 'inactive-rate'"
+        >sentiment_very_satisfied</mat-icon
+      >
+    </button>
+  </div>
   <mat-form-field>
     <mat-label>Leave a comment</mat-label>
     <textarea
       matInput
       rows="5"
+      style="resize: none"
       [(ngModel)]="comment"
+      (ngModelChange)="validate($event)"
       placeholder="I like this feature because.."
     ></textarea>
   </mat-form-field>
-  <button mat-mini-fab class="send" color="primary" (click)="send()">
+  <button
+    mat-mini-fab
+    class="send"
+    color="primary"
+    (click)="send()"
+    class="send"
+    [disabled]="!this.canSend"
+  >
     <mat-icon>send</mat-icon>
   </button>
 </mat-card>

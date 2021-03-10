@@ -1,9 +1,4 @@
 import { Component } from '@angular/core';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +6,32 @@ import {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'feedback-form';
-  comment: string;
+  title = 'Feature Feedback';
+
   rating = 0;
-  showFeedback = false;
+  canSend = false;
+  comment: string;
+
+  showFeedback = true;
+
+  URL: string = 'http://something.com';
+
+  setRating(rating: number) {
+    this.rating = rating;
+    this.validate(this.comment);
+  }
+
+  validate(event: string) {
+    if (this.rating > 0 && event.trim().length > 0) {
+      this.canSend = true;
+    } else {
+      this.canSend = false;
+    }
+  }
 
   send(): any {
-    if (this.rating === undefined || !this.comment) {
-      alert('Please choose a rating and drop a comment!');
-    } else {
-      alert(
-        'Feedback sent!\nRating: ' + this.rating + '\nComment: ' + this.comment
-      );
-    }
+    alert(
+      'Feedback sent!\nRating: ' + this.rating + '\nComment: ' + this.comment
+    );
   }
 }
